@@ -60,19 +60,25 @@ object EisGenerator {
 //  }
 
 
-  def genEoriCheckResponse(checkRequest: CheckRequest): Gen[Option[CheckResponse]] = {
-   val requestedEori = checkRequest
-    val isValid = requestedEori
-    for {
-      isValid <- Gen.boolean
-      traderName <- if(isValid) genTraderName.sometimes else Gen.const(None)
-      address <- if(isValid) genAddress.sometimes else Gen.const(None)
-    } yield CheckResponse(
-      requestedEori,
-      isValid,
-      traderName,
-      address
-    ).some
+  def genEoriCheckResponse(checkRequest: CheckRequest): Gen[List[CheckResponse]] = {
+    val requestedEori = checkRequest.eoriNumbers.head
+
+    val ret = checkRequest.eoriNumbers.map { requestedEori =>
+      val isValid = requestedEori
+      for {
+        isValid <- Gen.boolean
+        traderName <- if(isValid) genTraderName.sometimes else Gen.const(None)
+        address <- if(isValid) genAddress.sometimes else Gen.const(None)
+      } yield CheckResponse(
+        requestedEori,
+        isValid,
+        traderName,
+        address
+      )
+
+    }
+
+    ret.sequence
   }
 
 }
