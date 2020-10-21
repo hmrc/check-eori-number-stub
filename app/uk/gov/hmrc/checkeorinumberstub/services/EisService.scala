@@ -14,17 +14,15 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.checkeorinumberstub.config
+package uk.gov.hmrc.checkeorinumberstub.services
 
-import javax.inject.{Inject, Singleton}
-import play.api.Configuration
-import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
+import uk.gov.hmrc.checkeorinumberstub.models.{CheckRequest, CheckResponse}
 
-@Singleton
-class AppConfig @Inject()(config: Configuration, servicesConfig: ServicesConfig) {
+//@Singleton
+class EisService {
 
-  val authBaseUrl: String = servicesConfig.baseUrl("auth")
 
-  val auditingEnabled: Boolean = config.get[Boolean]("auditing.enabled")
-  val graphiteHost: String     = config.get[String]("microservice.metrics.graphite.host")
+  def handleEoriCheckRequest(data: CheckRequest): Option[CheckResponse] = {
+    EisGenerator.genEoriCheckResponse(data).seeded(data.eoriNumbers.mkString.hashCode.toLong).get
+  }
 }

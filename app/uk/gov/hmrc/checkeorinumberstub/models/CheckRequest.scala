@@ -14,17 +14,21 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.checkeorinumberstub.config
+package uk.gov.hmrc.checkeorinumberstub.models
 
-import javax.inject.{Inject, Singleton}
-import play.api.Configuration
-import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
+import play.api.libs.json._
 
-@Singleton
-class AppConfig @Inject()(config: Configuration, servicesConfig: ServicesConfig) {
+case class CheckRequest(
+  eoriNumbers: List[EoriNumber]
+)
 
-  val authBaseUrl: String = servicesConfig.baseUrl("auth")
+object CheckRequest {
+  implicit val checkRequestFormat: OFormat[CheckRequest] = Json.format[CheckRequest]
+//
+//  implicit val eoriListWriter: Writes[List[EoriNumber]] = new Writes[List[EoriNumber]] {
+//    override def writes(dt: List[EoriNumber]): JsValue = {
+//      Json.obj("eoris" -> Json.toJson(dt))
+//    }
+//  }
 
-  val auditingEnabled: Boolean = config.get[Boolean]("auditing.enabled")
-  val graphiteHost: String     = config.get[String]("microservice.metrics.graphite.host")
 }
