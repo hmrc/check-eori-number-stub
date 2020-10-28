@@ -17,11 +17,12 @@
 package uk.gov.hmrc.checkeorinumberstub.controllers
 
 import javax.inject.{Inject, Singleton}
-import play.api.libs.json.Json
-import play.api.mvc.ControllerComponents
+
+import play.api.libs.json._
+import play.api.mvc.{Action, ControllerComponents}
 import uk.gov.hmrc.checkeorinumberstub.config.AppConfig
 import uk.gov.hmrc.checkeorinumberstub.models._
-import uk.gov.hmrc.checkeorinumberstub.services.EisGenerator
+import uk.gov.hmrc.checkeorinumberstub.services.EisService
 import uk.gov.hmrc.play.bootstrap.backend.controller.BackendController
 
 import scala.concurrent.Future
@@ -29,36 +30,23 @@ import scala.concurrent.Future
 @Singleton()
 class EisController @Inject()(
   appConfig: AppConfig,
-  cc: ControllerComponents
+  cc: ControllerComponents,
+  eisService: EisService
 ) extends BackendController(cc) {
 
-
-  def eoriChecker() = {
+  def eoriChecker(): Action[JsValue] = {
     Action.async(parse.json) { implicit request =>
-      withJsonBody[CheckRequest](checkRequest => {
-        //    val r: CheckResponse = EisGenerator
-        //        .genDstRegisterResponse.map(_.response)
-        //        .sample.get
-        //    Ok(Json.toJson("hey"))
-        println(s"AAAAAAAAAAAAA${Json.toJson(checkRequest)}")
-        Future.successful(Ok(
-          Json.toJson(
-            CheckResponse(
-              checkRequest.eoriNumbers.head,
-              valid = true,
-              Some("Hay's Limonard"),
-              Some(
-                Address(
-                  "House 1",
-                  "City 2",
-                  "AA111AA"
-                )
-              )
+      withJsonBody[CheckMultipleEoriNumbersRequest](checkRequest => {
+        Future.successful(
+          Ok(
+            Json.obj("party" -> JsArray(
+              eisService.handleEoriCheckRequest(checkRequest).map{ r =>
+                Json.obj("identifications" -> r)
+              })
             )
           )
-        ))
-      }
-      )
+        )
+      })
     }
   }
 }

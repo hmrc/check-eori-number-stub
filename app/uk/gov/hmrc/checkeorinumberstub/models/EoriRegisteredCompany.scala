@@ -24,5 +24,5 @@ case class EoriRegisteredCompany(
 )
 
 object EoriRegisteredCompany {
-  implicit val eoriRegisteredCompany: OFormat[EoriRegisteredCompany] = Json.format[EoriRegisteredCompany]
+  implicit val format: OFormat[EoriRegisteredCompany] = Json.format[EoriRegisteredCompany]
 }

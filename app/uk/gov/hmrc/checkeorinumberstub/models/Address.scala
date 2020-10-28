@@ -25,6 +25,5 @@ case class Address(
 )
 
 object Address {
-  implicit val addressFormat: OFormat[Address] =
-    Json.format[Address]
+  implicit val format: OFormat[Address] = Json.format[Address]
 }

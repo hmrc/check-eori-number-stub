@@ -18,17 +18,10 @@ package uk.gov.hmrc.checkeorinumberstub.models
 
 import play.api.libs.json._
 
-case class CheckRequest(
+case class CheckMultipleEoriNumbersRequest(
   eoriNumbers: List[EoriNumber]
 )
 
-object CheckRequest {
-  implicit val checkRequestFormat: OFormat[CheckRequest] = Json.format[CheckRequest]
-//
-//  implicit val eoriListWriter: Writes[List[EoriNumber]] = new Writes[List[EoriNumber]] {
-//    override def writes(dt: List[EoriNumber]): JsValue = {
-//      Json.obj("eoris" -> Json.toJson(dt))
-//    }
-//  }
-
+object CheckMultipleEoriNumbersRequest {
+  implicit val format: OFormat[CheckMultipleEoriNumbersRequest] = Json.format[CheckMultipleEoriNumbersRequest]
 }

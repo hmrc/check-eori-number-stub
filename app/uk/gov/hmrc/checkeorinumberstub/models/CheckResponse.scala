@@ -18,7 +18,7 @@ package uk.gov.hmrc.checkeorinumberstub.models
 
 import java.time.{ZoneId, ZonedDateTime}
 
-import play.api.libs.json.{Json, OFormat}
+import play.api.libs.json._
 
 case class CheckResponse (
   eori: EoriNumber,
@@ -29,5 +29,5 @@ case class CheckResponse (
 )
 
 object CheckResponse {
-  implicit val checkResponseFormat: OFormat[CheckResponse] = Json.format[CheckResponse]
+ implicit val format: OFormat[CheckResponse] = Json.format[CheckResponse]
 }
