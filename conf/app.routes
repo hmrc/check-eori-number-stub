@@ -1,3 +1,5 @@
 # microservice specific routes
 
 GET        /hello-world             uk.gov.hmrc.checkeorinumberstub.controllers.MicroserviceHelloWorldController.hello
+
+POST       /gbeorichecker/gbeorirequest/v1  uk.gov.hmrc.checkeorinumberstub.controllers.EisController.eoriChecker()
