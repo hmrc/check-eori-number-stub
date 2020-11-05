@@ -34,27 +34,18 @@ object EisGenerator {
   //  }
 
   private def genAddress(isValid: Boolean, eoriLastDigit: Int): Gen[Option[Address]] = {
-    val shouldGen = isValid && (eoriLastDigit == 2 || eoriLastDigit == 3 || eoriLastDigit == 6 || eoriLastDigit == 7)
+    val shouldGen = isValid && (eoriLastDigit >= 2 && eoriLastDigit <= 5) || eoriLastDigit == 7
     shouldGen match {
       case true =>
-        for {
-          a <- Gen.some(Gen.oneOf("50 George Street", "10 Park Avenue", "12 Baker Street"))
-          b <- Gen.some(Gen.oneOf("Brighton", "Liverpool", "London"))
-          c  <- Gen.some(Gen.oneOf("BN11 5HA", "L1 5QT", "SS13 4FT"))
-        } yield Address(a.getOrElse(""), b.getOrElse(""), c.getOrElse("")).some
+        Gen.ukAddress.map { lines =>
+          Address(lines(0), lines(1), lines(2)).some
+        }
       case false => Gen.const(None)
     }
   }
 
-//  private lazy val addressGen: Gen[Address] = {
-//    Gen.ukAddress.map { lines =>
-//      Address(lines.init, lines.last)
-//    }
-//  }
-
-
   private def genTraderName(isValid: Boolean, eoriLastDigit: Int): Gen[Option[String]] = {
-    if(isValid && eoriLastDigit >= 2 && eoriLastDigit <= 5)
+    if(isValid && eoriLastDigit >= 2 && eoriLastDigit <= 6)
       Gen.some(Gen.company.retryUntil(a => a.length < 35 && a.length > 1))
     else
       Gen.const(None)
@@ -69,11 +60,11 @@ object EisGenerator {
 
   /*
    The last digit of each EoriNumber will return each type of CheckResponse =>
-    0 || 1  Vaild with no TraderName or Address
-    2 || 3  Vaild with TraderName and Address
-    4 || 5  Vaild with TraderName
-    6 || 7  Vaild with Address
-    8 || 9  Invalid
+    0 or 1  Vaild with no TraderName or Address
+    2 to 5  Vaild with TraderName and Address
+    6       Vaild with TraderName but no Address
+    7       Vaild with Address but no TraderName
+    8 or 9  Invalid
    */
 
   def genEoriCheckResponse(checkRequest: CheckMultipleEoriNumbersRequest): Gen[List[CheckResponse]] = {
