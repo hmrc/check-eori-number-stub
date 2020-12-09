@@ -21,6 +21,6 @@ import uk.gov.hmrc.smartstub._
 
 class EisService {
   def handleEoriCheckRequest(data: CheckMultipleEoriNumbersRequest): List[CheckResponse] = {
-    EisGenerator.genEoriCheckResponse(data).seeded(data.eoriNumbers.mkString.hashCode.toLong).getOrElse(Nil)
+    EisGenerator.genEoriCheckResponse(data).seeded(data.eoris.mkString.hashCode.toLong).getOrElse(Nil)
   }
 }

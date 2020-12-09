@@ -68,7 +68,7 @@ object EisGenerator {
    */
 
   def genEoriCheckResponse(checkRequest: CheckMultipleEoriNumbersRequest): Gen[List[CheckResponse]] = {
-    val ret = checkRequest.eoriNumbers.map { requestedEori =>
+    val ret = checkRequest.eoris.map { requestedEori =>
       val eoriLastDigit = requestedEori.last.asDigit
       for {
         isValid <- isValidEori(requestedEori)
