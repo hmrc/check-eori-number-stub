@@ -31,7 +31,7 @@ class EisGeneratorSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuit
 
   def generatedCheckResponse(seed: Long = 1L): Option[List[CheckResponse]] =
     EisGenerator.genEoriCheckResponse(checkData).seeded(seed)
-      .map(x => x.map(_.copy(processingDate = processingDate)))
+      .map(_.map(_.copy(processingDate = processingDate)))
 
   "Generated data" should {
 
