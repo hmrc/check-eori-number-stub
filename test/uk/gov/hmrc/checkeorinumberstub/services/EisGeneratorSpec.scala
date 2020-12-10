@@ -21,26 +21,26 @@ import java.time.{ZoneId, ZonedDateTime}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
-import uk.gov.hmrc.checkeorinumberstub.models.{CheckMultipleEoriNumbersRequest, ProcessingDate}
+import uk.gov.hmrc.checkeorinumberstub.models.{CheckMultipleEoriNumbersRequest, CheckResponse, ProcessingDate}
 import uk.gov.hmrc.smartstub._
 
 class EisGeneratorSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite{
 
   val checkData = CheckMultipleEoriNumbersRequest(List("GB123456789123","GB123456781123"))
+  val processingDate: ProcessingDate = ZonedDateTime.now.withZoneSameInstant(ZoneId.of("Europe/London"))
+
+  def generatedCheckResponse(seed: Long = 1L): Option[List[CheckResponse]] =
+    EisGenerator.genEoriCheckResponse(checkData).seeded(seed)
+      .map(x => x.map(_.copy(processingDate = processingDate)))
 
   "Generated data" should {
 
     "exist" in {
-      EisGenerator.genEoriCheckResponse(checkData).seeded(1L).nonEmpty shouldBe true
+      generatedCheckResponse().nonEmpty shouldBe true
     }
 
     "be deterministic" in {
-      val processingDate: ProcessingDate = ZonedDateTime.now.withZoneSameInstant(ZoneId.of("Europe/London"))
-      val gen1 = EisGenerator.genEoriCheckResponse(checkData).seeded(1L).get
-        .map(x => x.copy(processingDate = processingDate))
-      val gen2 = EisGenerator.genEoriCheckResponse(checkData).seeded(1L).get
-        .map(x => x.copy(processingDate = processingDate))
-      gen1 shouldBe gen2
+      generatedCheckResponse().get shouldBe generatedCheckResponse().get
     }
   }
 
