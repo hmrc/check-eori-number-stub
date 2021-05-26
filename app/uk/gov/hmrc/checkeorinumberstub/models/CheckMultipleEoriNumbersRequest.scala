@@ -19,7 +19,7 @@ package uk.gov.hmrc.checkeorinumberstub.models
 import play.api.libs.json._
 
 case class CheckMultipleEoriNumbersRequest(
-  eoriNumbers: List[EoriNumber]
+  eoris: List[EoriNumber]
 )
 
 object CheckMultipleEoriNumbersRequest {
