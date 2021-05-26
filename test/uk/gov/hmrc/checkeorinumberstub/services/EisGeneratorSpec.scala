@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,13 +20,12 @@ import java.time.{ZoneId, ZonedDateTime}
 
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
-import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import uk.gov.hmrc.checkeorinumberstub.models.{CheckMultipleEoriNumbersRequest, CheckResponse, ProcessingDate}
 import uk.gov.hmrc.smartstub._
 
-class EisGeneratorSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite{
+class EisGeneratorSpec extends AnyWordSpec with Matchers {
 
-  val checkData = CheckMultipleEoriNumbersRequest(List("GB123456789123","GB123456781123"))
+  val checkData: CheckMultipleEoriNumbersRequest = CheckMultipleEoriNumbersRequest(List("GB123456789123","GB123456781123"))
   val processingDate: ProcessingDate = ZonedDateTime.now.withZoneSameInstant(ZoneId.of("Europe/London"))
 
   def generatedCheckResponse(seed: Long = 1L): Option[List[CheckResponse]] =
