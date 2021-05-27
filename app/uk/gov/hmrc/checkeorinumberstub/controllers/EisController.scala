@@ -17,7 +17,6 @@
 package uk.gov.hmrc.checkeorinumberstub.controllers
 
 import javax.inject.{Inject, Singleton}
-
 import play.api.libs.json._
 import play.api.mvc.{Action, ControllerComponents}
 import uk.gov.hmrc.checkeorinumberstub.config.AppConfig
@@ -36,17 +35,24 @@ class EisController @Inject()(
 
   def eoriChecker(): Action[JsValue] = {
     Action.async(parse.json) { implicit request =>
-      withJsonBody[CheckMultipleEoriNumbersRequest](checkRequest => {
-        Future.successful(
-          Ok(
-            Json.obj("party" -> JsArray(
-              eisService.handleEoriCheckRequest(checkRequest).map{ r =>
-                Json.obj("identifications" -> r)
-              })
+      withJsonBody[CheckMultipleEoriNumbersRequest] {
+        case CheckMultipleEoriNumbersRequest(List("GB123456789007")) =>
+          Future.successful(BadRequest)
+        case CheckMultipleEoriNumbersRequest(List("GB123456789008")) =>
+          Future.successful(Forbidden)
+        case CheckMultipleEoriNumbersRequest(List("GB123456789009")) =>
+          Future.successful(InternalServerError)
+        case checkRequest =>
+          Future.successful(
+            Ok(
+              Json.obj("party" -> JsArray(
+                eisService.handleEoriCheckRequest(checkRequest).map { r =>
+                  Json.obj("identifications" -> r)
+                })
+              )
             )
           )
-        )
-      })
+      }
     }
   }
 }
