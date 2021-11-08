@@ -19,7 +19,8 @@ will affect the type of CheckResponse:
 | Last digit of [EORI](https://ec.europa.eu/taxation_customs/business/customs-procedures-import-and-export/customs-procedures/economic-operators-registration_en) e.g. GB12345678999X | Result | 
 | --- | --- |
 | 0 or 1 | Valid with no TraderName or Address |
-| 2 to 5 | Valid with TraderName and Address |
+| 2 to 4 | Valid with TraderName and Address |
+| 5 | Valid with TraderName and Address, No Postcode |
 | 6 | Valid with TraderName but no Address |
 | 7 | Valid with Address but no TraderName |
 | 8 or 9 | Invalid |

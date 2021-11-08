@@ -36,6 +36,10 @@ object EisGenerator {
   private def genAddress(isValid: Boolean, eoriLastDigit: Int): Gen[Option[Address]] = {
     val shouldGen = isValid && (eoriLastDigit >= 2 && eoriLastDigit <= 5) || eoriLastDigit == 7
     shouldGen match {
+      case true if eoriLastDigit == 5 =>
+        Gen.ukAddress.map { lines =>
+          Address(lines(0), lines(1), postcode = null).some
+      }
       case true =>
         Gen.ukAddress.map { lines =>
           Address(lines(0), lines(1), lines(2)).some
