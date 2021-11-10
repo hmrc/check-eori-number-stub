@@ -38,7 +38,8 @@ object EisGenerator {
     shouldGen match {
       case true =>
         Gen.ukAddress.map { lines =>
-          Address(lines(0), lines(1), lines(2)).some
+          val postCode = if (eoriLastDigit == 5) null else lines(2)
+          Address(lines(0), lines(1), postCode).some
         }
       case false => Gen.const(None)
     }
