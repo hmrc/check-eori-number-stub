@@ -35,13 +35,13 @@ object EisGenerator {
 
   private def genAddress(isValid: Boolean, eoriLastDigit: Int): Gen[Option[Address]] = {
     val shouldGen = isValid && (eoriLastDigit >= 2 && eoriLastDigit <= 5) || eoriLastDigit == 7
-    shouldGen match {
-      case true =>
-        Gen.ukAddress.map { lines =>
-          val postCode = if (eoriLastDigit == 5) null else lines(2)
-          Address(lines(0), lines(1), postCode).some
-        }
-      case false => Gen.const(None)
+    if (shouldGen) {
+      Gen.ukAddress.map { lines =>
+        val postCode = if (eoriLastDigit == 5) null else lines(2)
+        Address(lines(0), lines(1), postCode).some
+      }
+    } else {
+      Gen.const(None)
     }
   }
 
