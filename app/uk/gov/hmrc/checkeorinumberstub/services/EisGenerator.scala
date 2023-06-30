@@ -18,7 +18,7 @@ package uk.gov.hmrc.checkeorinumberstub.services
 
 import org.scalacheck.Gen
 import cats.implicits._
-import org.scalacheck.support.cats._
+import org.scalacheck.cats.implicits.genInstances
 import uk.gov.hmrc.smartstub._
 import uk.gov.hmrc.checkeorinumberstub.models.{Address, CheckMultipleEoriNumbersRequest, CheckResponse, EoriNumber}
 
