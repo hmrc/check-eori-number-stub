@@ -25,14 +25,6 @@ import uk.gov.hmrc.checkeorinumberstub.models.{Address, CheckMultipleEoriNumbers
 
 object EisGenerator {
 
-  //TODO Check is this Gen will be best for TraderName after research
-  //   lazy val genFirstAndLastName: Gen[String] = {
-  //    for {
-  //      fname <- Gen.forename
-  //      sname <- Gen.surname
-  //    } yield s"$fname $sname"
-  //  }
-
   private def genAddress(isValid: Boolean, eoriLastDigit: Int): Gen[Option[Address]] = {
     val shouldGen = isValid && (eoriLastDigit >= 2 && eoriLastDigit <= 5) || eoriLastDigit == 7
     shouldGen match {
