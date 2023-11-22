@@ -22,7 +22,6 @@ import org.scalacheck.cats.implicits.genInstances
 import uk.gov.hmrc.smartstub._
 import uk.gov.hmrc.checkeorinumberstub.models.{Address, CheckMultipleEoriNumbersRequest, CheckResponse, EoriNumber}
 
-
 object EisGenerator {
 
   private def genAddress(isValid: Boolean, eoriLastDigit: Int): Gen[Option[Address]] = {
@@ -37,19 +36,17 @@ object EisGenerator {
     }
   }
 
-  private def genTraderName(isValid: Boolean, eoriLastDigit: Int): Gen[Option[String]] = {
-    if(isValid && eoriLastDigit >= 2 && eoriLastDigit <= 6)
+  private def genTraderName(isValid: Boolean, eoriLastDigit: Int): Gen[Option[String]] =
+    if (isValid && eoriLastDigit >= 2 && eoriLastDigit <= 6)
       Gen.some(Gen.company.retryUntil(a => a.length < 35 && a.length > 1))
     else
       Gen.const(None)
-  }
 
-  private def isValidEori(eoriNumber: EoriNumber): Gen[Boolean] = {
+  private def isValidEori(eoriNumber: EoriNumber): Gen[Boolean] =
     eoriNumber match {
       case en if en.last.asDigit >= 0 && en.last.asDigit <= 7 => Gen.const(true)
-      case _ => Gen.const(false)
+      case _                                                  => Gen.const(false)
     }
-  }
 
   /*
    The last digit of each EoriNumber will return each type of CheckResponse =>
@@ -65,7 +62,7 @@ object EisGenerator {
       val eoriLastDigit = requestedEori.last.asDigit
       for {
         isValid <- isValidEori(requestedEori)
-        tn <- genTraderName(isValid, eoriLastDigit)
+        tn      <- genTraderName(isValid, eoriLastDigit)
         address <- genAddress(isValid, eoriLastDigit)
       } yield CheckResponse(
         requestedEori,
