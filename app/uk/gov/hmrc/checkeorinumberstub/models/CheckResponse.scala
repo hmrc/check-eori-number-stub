@@ -20,7 +20,7 @@ import java.time.{ZoneId, ZonedDateTime}
 
 import play.api.libs.json._
 
-case class CheckResponse (
+case class CheckResponse(
   eori: EoriNumber,
   valid: Boolean,
   traderName: Option[TraderName],
@@ -29,5 +29,5 @@ case class CheckResponse (
 )
 
 object CheckResponse {
- implicit val format: OFormat[CheckResponse] = Json.format[CheckResponse]
+  implicit val format: OFormat[CheckResponse] = Json.format[CheckResponse]
 }

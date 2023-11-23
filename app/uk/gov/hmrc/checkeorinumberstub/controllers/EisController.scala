@@ -27,7 +27,7 @@ import uk.gov.hmrc.play.bootstrap.backend.controller.BackendController
 import scala.concurrent.Future
 
 @Singleton()
-class EisController @Inject()(
+class EisController @Inject() (
   appConfig: AppConfig,
   cc: ControllerComponents,
   eisService: EisService
@@ -45,11 +45,9 @@ class EisController @Inject()(
         case checkRequest =>
           Future.successful(
             Ok(
-              Json.obj("party" -> JsArray(
-                eisService.handleEoriCheckRequest(checkRequest).map { r =>
-                  Json.obj("identifications" -> r)
-                })
-              )
+              Json.obj("party" -> JsArray(eisService.handleEoriCheckRequest(checkRequest).map { r =>
+                Json.obj("identifications" -> r)
+              }))
             )
           )
       }
