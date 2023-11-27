@@ -16,16 +16,18 @@
 
 package uk.gov.hmrc.checkeorinumberstub.services
 
-import java.time.{ZoneId, ZonedDateTime}
-
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import uk.gov.hmrc.checkeorinumberstub.models.{CheckMultipleEoriNumbersRequest, CheckResponse, ProcessingDate}
 import uk.gov.hmrc.smartstub._
 
+import java.time.{ZoneId, ZonedDateTime}
+
 class EisGeneratorSpec extends AnyWordSpec with Matchers {
 
-  val checkData: CheckMultipleEoriNumbersRequest = CheckMultipleEoriNumbersRequest(List("GB123456789123","GB123456781123"))
+  val checkData: CheckMultipleEoriNumbersRequest = CheckMultipleEoriNumbersRequest(
+    List("GB123456789123", "GB123456781123")
+  )
   val processingDate: ProcessingDate = ZonedDateTime.now.withZoneSameInstant(ZoneId.of("Europe/London"))
 
   def generatedCheckResponse(seed: Long = 1L): Option[List[CheckResponse]] =
