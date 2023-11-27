@@ -16,9 +16,9 @@
 
 package uk.gov.hmrc.checkeorinumberstub.models
 
-import java.time.{ZoneId, ZonedDateTime}
-
 import play.api.libs.json._
+
+import java.time.{ZoneId, ZonedDateTime}
 
 case class CheckResponse(
   eori: EoriNumber,

@@ -18,6 +18,7 @@ package uk.gov.hmrc.checkeorinumberstub.models.internal
 
 import play.api.libs.json._
 import uk.gov.hmrc.smartstub._
+
 import scala.language.implicitConversions
 
 object EnumUtils {
