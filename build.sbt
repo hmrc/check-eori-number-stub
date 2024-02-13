@@ -7,7 +7,6 @@ lazy val microservice = Project(appName, file("."))
     scalacOptions += "-Wconf:src=routes/.*:s",
     scalacOptions += "-Wconf:cat=unused-imports&src=html/.*:s"
   )
-  .configs(IntegrationTest)
   .settings(resolvers += Resolver.jcenterRepo)
   .settings(
     // To resolve a bug with version 2.x.x of the scoverage plugin - https://github.com/sbt/sbt/issues/6997
