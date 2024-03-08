@@ -1,20 +1,19 @@
 import play.core.PlayVersion.current
-import sbt._
+import sbt.*
 
 object AppDependencies {
 
   val bootstrapVersion = "8.4.0"
+  val playVersion      = 30
 
-  val compile = Seq(
-    "uk.gov.hmrc" %% "bootstrap-backend-play-29" % bootstrapVersion,
-    "uk.gov.hmrc" %% "stub-data-generator"       % "1.1.0"
+  val compile: Seq[ModuleID] = Seq(
+    "uk.gov.hmrc" %% s"bootstrap-backend-play-$playVersion" % bootstrapVersion,
+    "uk.gov.hmrc" %% "stub-data-generator"                  % "1.1.0"
   )
 
-  val test = Seq(
-    "uk.gov.hmrc"            %% "bootstrap-test-play-29" % bootstrapVersion % Test,
-    "org.scalatest"          %% "scalatest"              % "3.2.15"         % Test,
-    "com.typesafe.play"      %% "play-test"              % current          % Test,
-    "com.vladsch.flexmark"    % "flexmark-all"           % "0.64.6"         % Test,
-    "org.scalatestplus.play" %% "scalatestplus-play"     % "5.1.0"          % Test
-  )
+  val test: Seq[ModuleID] = Seq(
+    "uk.gov.hmrc"            %% s"bootstrap-test-play-$playVersion" % bootstrapVersion,
+    "org.playframework"      %% "play-test"                         % current,
+    "org.scalatestplus.play" %% "scalatestplus-play"                % "7.0.1"
+  ).map(_ % Test)
 }
