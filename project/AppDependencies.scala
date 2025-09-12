@@ -3,12 +3,12 @@ import sbt.*
 
 object AppDependencies {
 
-  val bootstrapVersion = "8.4.0"
+  val bootstrapVersion = "10.1.0"
   val playVersion      = 30
 
   val compile: Seq[ModuleID] = Seq(
     "uk.gov.hmrc" %% s"bootstrap-backend-play-$playVersion" % bootstrapVersion,
-    "uk.gov.hmrc" %% "stub-data-generator"                  % "1.1.0"
+    "uk.gov.hmrc" %% "stub-data-generator"                  % "1.4.0" //cannot be upgraded until scala is updated
   )
 
   val test: Seq[ModuleID] = Seq(
