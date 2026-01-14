@@ -28,7 +28,6 @@ import scala.concurrent.Future
 
 @Singleton()
 class EisController @Inject() (
-  appConfig: AppConfig,
   cc: ControllerComponents,
   eisService: EisService
 ) extends BackendController(cc) {

@@ -22,8 +22,8 @@ import uk.gov.hmrc.smartstub._
 import scala.language.implicitConversions
 
 object EnumUtils {
-  def enumReads[E <: Enumeration](`enum`: E): Reads[E#Value] = new Reads[E#Value] {
-    def reads(json: JsValue): JsResult[E#Value] = json match {
+  def enumReads[E <: Enumeration](`enum`: E): Reads[`enum`.Value] = new Reads[`enum`.Value] {
+    def reads(json: JsValue): JsResult[`enum`.Value] = json match {
       case JsString(s) =>
         try
           JsSuccess(`enum`.withName(s))
@@ -38,12 +38,12 @@ object EnumUtils {
     }
   }
 
-  implicit def enumWrites[E <: Enumeration]: Writes[E#Value] = new Writes[E#Value] {
-    def writes(v: E#Value): JsValue = JsString(v.toString)
+  implicit def enumWrites[E <: Enumeration](`enum`: E): Writes[`enum`.Value] = new Writes[`enum`.Value] {
+    def writes(v: `enum`.Value): JsValue = JsString(v.toString)
   }
 
-  implicit def enumFormat[E <: Enumeration](`enum`: E): Format[E#Value] =
-    Format(enumReads(`enum`), enumWrites)
+  implicit def enumFormat[E <: Enumeration](`enum`: E): Format[`enum`.Value] =
+    Format(enumReads(`enum`), enumWrites(`enum`))
 
   implicit val idEnum: Enumerable[String] = pattern"9999999999"
 }
