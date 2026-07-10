@@ -7,8 +7,18 @@ lazy val microservice = Project(appName, file("."))
     excludeDependencies += ExclusionRule("org.lz4", "lz4-java"),
     scalacOptions += "-Wconf:src=routes/.*:s",
     scalacOptions += "-Wconf:msg=unused-imports&src=html/.*:s",
-    scalacOptions += "-Wconf:msg=Flag.*repeatedly:s"
+    scalacOptions += "-Wconf:msg=Flag.*repeatedly:s",
+    scoverageSettings
   )
+
+lazy val scoverageSettings = {
+  import scoverage.ScoverageKeys
+  Seq(
+    ScoverageKeys.coverageMinimumStmtTotal := 90,
+    ScoverageKeys.coverageFailOnMinimum := false,
+    ScoverageKeys.coverageHighlighting := true
+  )
+}
 
 PlayKeys.playDefaultPort := 8352
 val appName = "check-eori-number-stub"
