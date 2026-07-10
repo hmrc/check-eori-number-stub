@@ -19,7 +19,6 @@ package uk.gov.hmrc.checkeorinumberstub.controllers
 import javax.inject.{Inject, Singleton}
 import play.api.libs.json._
 import play.api.mvc.{Action, ControllerComponents}
-import uk.gov.hmrc.checkeorinumberstub.config.AppConfig
 import uk.gov.hmrc.checkeorinumberstub.models._
 import uk.gov.hmrc.checkeorinumberstub.services.EisService
 import uk.gov.hmrc.play.bootstrap.backend.controller.BackendController
